@@ -12,7 +12,9 @@ function getData(url, callbackFunc) {
 function successAjax(xhttp) {
     var userDatas = JSON.parse(xhttp.responseText);
     console.log(userDatas);
-
+    var aliveCharacters = livingCharacters(userDatas);
+    orderBy(aliveCharacters);
+    console.log(aliveCharacters);
 }
 
 // Írd be a json fileod nevét/útvonalát úgy, ahogy nálad van
@@ -22,7 +24,7 @@ getData('json/characters.json', successAjax);
 function livingCharacters(charactersDatabase) {
     var results = [];
     for (var i in charactersDatabase) {
-        if (charactersDatabase[i].dead === '') {
+        if (!charactersDatabase[i].dead) {
             results.push(charactersDatabase[i]);
         }
     }
@@ -31,7 +33,7 @@ function livingCharacters(charactersDatabase) {
 
 function orderBy(charactersDatabase) {
     var i = charactersDatabase.length;
-    var swap = boolean;
+    var swap = false;
     do {
         swap = false;
         for (var j = 0; j < i - 1; j++) {
@@ -42,4 +44,9 @@ function orderBy(charactersDatabase) {
         }
         i--;
     } while (swap)
+}
+
+function fillContent(charactersDatabase) {
+    var mainContent = document.getElementById('main-content');
+
 }

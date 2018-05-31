@@ -1,0 +1,45 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+@font-face {
+    font-family: GoT;
+    src: url('../assets/fonts/Game of Thrones.ttf')
+}
+
+body {
+    font-family: 'GoT';
+    margin: 0;
+}
+
+#main-content,
+#right-menu {
+    margin: 0;
+    position: static;
+}
+
+#main-content {
+    width: 75%;
+    height: 100%;
+    float: left;
+}
+
+#right-menu {
+    color: whitesmoke;
+    width: 25%;
+    height: 100%;
+    float: right;
+    background-color: rgba(0, 0, 0, 0.45)
+}
+
+.background {
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/site/mapblue.jpg');
+    background-size: 100%, auto;
+    position: relative;
+}
+
+.content-element
