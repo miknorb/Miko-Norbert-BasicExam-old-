@@ -49,19 +49,32 @@ function orderBy(charactersDatabase) {
 
 function fillContent(charactersDatabase) {
     var mainContent = document.getElementById('main-content');
+    var line = 1;
     for (var i in charactersDatabase) {
-        createElement(charactersDatabase[i], mainContent)
+        createElement(charactersDatabase[i], mainContent);
+        if (line === 8) {
+            createBreak(mainContent);
+            line = 0;
+        }
+        line++;
     }
 }
 
 function createElement(object, target) {
     var div = document.createElement('div');
-    div.setAttribute('class', 'content-element');
+    var p = document.createElement('P');
     var img = document.createElement('img');
-    img.src = object.name.split(' ')[1] ? `assets/${object.name.split(' ')[1].toLowerCase()}.png` : `assets/${object.name.split(' ')[0].toLowerCase()}.png`;
+    div.setAttribute('class', 'content-element');
+    p.innerHTML = object.name;
+    img.src = object.portrait;
     img.alt = object.name;
     div.appendChild(img);
-    div.appendChild(document.createElement('BR'));
-    div.appendChild(document.createTextNode(`${object.name}`));
+    createBreak(div);
+    div.appendChild(p)
     target.appendChild(div);
+}
+
+function createBreak(target) {
+
+    target.appendChild(document.createElement('BR'));
 }
