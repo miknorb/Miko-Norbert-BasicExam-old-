@@ -12,69 +12,145 @@ function getData(url, callbackFunc) {
 function successAjax(xhttp) {
     var userDatas = JSON.parse(xhttp.responseText);
     console.log(userDatas);
-    var aliveCharacters = livingCharacters(userDatas);
-    orderBy(aliveCharacters);
-    console.log(aliveCharacters);
-    fillContent(aliveCharacters);
-}
+    var GoT = {
+        livingCharacters: function (charactersDatabase) {
+            var results = [];
+            for (var i in charactersDatabase) {
+                if (!charactersDatabase[i].dead) {
+                    results.push(charactersDatabase[i]);
+                }
+            }
+            return results;
+        },
+        orderBy: function (charactersDatabase) {
+            var i = charactersDatabase.length;
+            var swap = false;
+            do {
+                swap = false;
+                for (var j = 0; j < i - 1; j++) {
+                    if (charactersDatabase[j].name > charactersDatabase[j + 1].name) {
+                        [charactersDatabase[j], charactersDatabase[j + 1]] = [charactersDatabase[j + 1], charactersDatabase[j]]
+                        swap = true;
+                    }
+                }
+                i--;
+            } while (swap)
+        },
+        fillContent: function (charactersDatabase) {
+            var mainContent = document.getElementById('main-content');
+            var line = 1;
+            for (var i in charactersDatabase) {
+                GoT.createElement(charactersDatabase[i], mainContent);
+                if (line === 8) {
+                    GoT.createBreak(mainContent);
+                    line = 0;
+                }
+                line++;
+            }
+        },
+        createElement: function (object, target) {
+            var div = document.createElement('div');
+            var p = document.createElement('P');
+            var img = document.createElement('img');
+            div.setAttribute('class', 'content-element');
+            div.id = object.id;
+            div.addEventListener('click', function () {
+                GoT.displayBio(this.id);
+            });
+            p.innerHTML = object.name;
+            img.src = object.portrait;
+            img.alt = object.name;
+            div.appendChild(img);
+            GoT.createBreak(div);
+            div.appendChild(p)
+            target.appendChild(div);
+        },
+        createBreak: function (target) {
+            target.appendChild(document.createElement('BR'));
 
+        },
+        formatBio: function (bio) {
+            var div = document.createElement('DIV');
+            var img = document.createElement('IMG');
+            var logo = document.createElement('IMG');
+            var h2 = document.createElement('H2');
+
+
+        },
+        displayBio: function (id) {
+            var menu = document.getElementById('right-menu');
+            formattedBio = formatBio(userDatas[id - 1]);
+            for (var i in formattedBio) {
+                menu.appendChild(formattedBio[i]);
+            }
+
+        }
+    }
+    var aliveCharacters = GoT.livingCharacters(userDatas);
+    GoT.orderBy(aliveCharacters);
+    console.log(aliveCharacters);
+    GoT.fillContent(aliveCharacters);
+
+}
 // Írd be a json fileod nevét/útvonalát úgy, ahogy nálad van
 getData('json/characters.json', successAjax);
 // Live servert használd mindig!!!!!
 /* IDE ÍRD A FÜGGVÉNYEKET!!!!!! NE EBBE AZ EGY SORBA HANEM INNEN LEFELÉ! */
-function livingCharacters(charactersDatabase) {
-    var results = [];
-    for (var i in charactersDatabase) {
-        if (!charactersDatabase[i].dead) {
-            results.push(charactersDatabase[i]);
-        }
-    }
-    return results;
-}
+// function livingCharacters(charactersDatabase) {
+//     var results = [];
+//     for (var i in charactersDatabase) {
+//         if (!charactersDatabase[i].dead) {
+//             results.push(charactersDatabase[i]);
+//         }
+//     }
+//     return results;
+// }
 
-function orderBy(charactersDatabase) {
-    var i = charactersDatabase.length;
-    var swap = false;
-    do {
-        swap = false;
-        for (var j = 0; j < i - 1; j++) {
-            if (charactersDatabase[j].name > charactersDatabase[j + 1].name) {
-                [charactersDatabase[j], charactersDatabase[j + 1]] = [charactersDatabase[j + 1], charactersDatabase[j]]
-                swap = true;
-            }
-        }
-        i--;
-    } while (swap)
-}
+// function orderBy(charactersDatabase) {
+//     var i = charactersDatabase.length;
+//     var swap = false;
+//     do {
+//         swap = false;
+//         for (var j = 0; j < i - 1; j++) {
+//             if (charactersDatabase[j].name > charactersDatabase[j + 1].name) {
+//                 [charactersDatabase[j], charactersDatabase[j + 1]] = [charactersDatabase[j + 1], charactersDatabase[j]]
+//                 swap = true;
+//             }
+//         }
+//         i--;
+//     } while (swap)
+// }
 
-function fillContent(charactersDatabase) {
-    var mainContent = document.getElementById('main-content');
-    var line = 1;
-    for (var i in charactersDatabase) {
-        createElement(charactersDatabase[i], mainContent);
-        if (line === 8) {
-            createBreak(mainContent);
-            line = 0;
-        }
-        line++;
-    }
-}
+// function fillContent(charactersDatabase) {
+//     var mainContent = document.getElementById('main-content');
+//     var line = 1;
+//     for (var i in charactersDatabase) {
+//         createElement(charactersDatabase[i], mainContent);
+//         if (line === 8) {
+//             createBreak(mainContent);
+//             line = 0;
+//         }
+//         line++;
+//     }
+// }
 
-function createElement(object, target) {
-    var div = document.createElement('div');
-    var p = document.createElement('P');
-    var img = document.createElement('img');
-    div.setAttribute('class', 'content-element');
-    p.innerHTML = object.name;
-    img.src = object.portrait;
-    img.alt = object.name;
-    div.appendChild(img);
-    createBreak(div);
-    div.appendChild(p)
-    target.appendChild(div);
-}
 
-function createBreak(target) {
 
-    target.appendChild(document.createElement('BR'));
-}
+
+// function createElement(object, target) {
+//     var div = document.createElement('div');
+//     var p = document.createElement('P');
+//     var img = document.createElement('img');
+//     div.setAttribute('class', 'content-element');
+//     div.id = object.id;
+//     div.addEventListener('click', function () {
+//         displayBio(this.id);
+//     });
+//     p.innerHTML = object.name;
+//     img.src = object.portrait;
+//     img.alt = object.name;
+//     div.appendChild(img);
+//     createBreak(div);
+//     div.appendChild(p)
+//     target.appendChild(div);
+// }
