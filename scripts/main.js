@@ -10,22 +10,36 @@ function getData(url, callbackFunc) {
 }
 
 function successAjax(xhttp) {
-    // itt a json content, benne a data változóban
     var userDatas = JSON.parse(xhttp.responseText);
     console.log(userDatas);
-    /*
-      Pár sorral lejebb majd ezt olvashatod:
-      IDE ÍRD A FÜGGVÉNYEKET!!!!!! NE EBBE AZ EGY SORBA HANEM INNEN LEFELÉ!
 
-      Na azokat a függvényeket ITT HÍVD MEG! 
-
-      A userDatas NEM GLOBÁLIS változó, ne is tegyétek ki globálisra. Azaz TILOS!
-      Ha valemelyik függvényeteknek kell, akkor paraméterként adjátok át.
-    */
 }
 
 // Írd be a json fileod nevét/útvonalát úgy, ahogy nálad van
 getData('json/characters.json', successAjax);
-
 // Live servert használd mindig!!!!!
 /* IDE ÍRD A FÜGGVÉNYEKET!!!!!! NE EBBE AZ EGY SORBA HANEM INNEN LEFELÉ! */
+function livingCharacters(charactersDatabase) {
+    var results = [];
+    for (var i in charactersDatabase) {
+        if (charactersDatabase[i].dead === '') {
+            results.push(charactersDatabase[i]);
+        }
+    }
+    return results;
+}
+
+function orderBy(charactersDatabase) {
+    var i = charactersDatabase.length;
+    var swap = boolean;
+    do {
+        swap = false;
+        for (var j = 0; j < i - 1; j++) {
+            if (charactersDatabase[j].name > charactersDatabase[j + 1].name) {
+                [charactersDatabase[j], charactersDatabase[j + 1]] = [charactersDatabase[j + 1], charactersDatabase[j]]
+                swap = true;
+            }
+        }
+        i--;
+    } while (swap)
+}
