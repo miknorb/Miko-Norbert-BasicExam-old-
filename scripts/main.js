@@ -70,21 +70,41 @@ function successAjax(xhttp) {
 
         },
         formatBio: function (bio) {
+            var out = [];
             var div = document.createElement('DIV');
             var img = document.createElement('IMG');
             var logo = document.createElement('IMG');
             var h2 = document.createElement('H2');
+            var p = document.createElement('P');
+            div.id = "bio-content";
+            img.src = bio.picture;
+            img.alt = bio.name;
+            img.id = "bio-img"
+            logo.src = bio.house ? `/assets/houses/${bio.house}.png` : null;
+            logo.alt = bio.house;
+            logo.id = "bio-logo";
+            h2.innerHTML = bio.name;
+            p.innerHTML = bio.bio;
+            div.appendChild(img);
+            div.appendChild(logo);
+            div.appendChild(h2);
+            div.appendChild(p);
+
+            return div;
 
 
         },
         displayBio: function (id) {
             var menu = document.getElementById('right-menu');
-            formattedBio = formatBio(userDatas[id - 1]);
-            for (var i in formattedBio) {
-                menu.appendChild(formattedBio[i]);
+            if (menu.children[1]) {
+                menu.removeChild(menu.children[1]);
             }
+            console.log(userDatas[id - 1]);
+            formattedBio = GoT.formatBio(userDatas[id - 1]);
+            menu.appendChild(formattedBio);
 
         }
+
     }
     var aliveCharacters = GoT.livingCharacters(userDatas);
     GoT.orderBy(aliveCharacters);
