@@ -15,6 +15,7 @@ function successAjax(xhttp) {
     var aliveCharacters = livingCharacters(userDatas);
     orderBy(aliveCharacters);
     console.log(aliveCharacters);
+    fillContent(aliveCharacters);
 }
 
 // Írd be a json fileod nevét/útvonalát úgy, ahogy nálad van
@@ -48,5 +49,19 @@ function orderBy(charactersDatabase) {
 
 function fillContent(charactersDatabase) {
     var mainContent = document.getElementById('main-content');
+    for (var i in charactersDatabase) {
+        createElement(charactersDatabase[i], mainContent)
+    }
+}
 
+function createElement(object, target) {
+    var div = document.createElement('div');
+    div.setAttribute('class', 'content-element');
+    var img = document.createElement('img');
+    img.src = object.name.split(' ')[1] ? `assets/${object.name.split(' ')[1].toLowerCase()}.png` : `assets/${object.name.split(' ')[0].toLowerCase()}.png`;
+    img.alt = object.name;
+    div.appendChild(img);
+    div.appendChild(document.createElement('BR'));
+    div.appendChild(document.createTextNode(`${object.name}`));
+    target.appendChild(div);
 }

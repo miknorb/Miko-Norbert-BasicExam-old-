@@ -39,7 +39,14 @@ body {
     height: 100%;
     background-image: url('../assets/site/mapblue.jpg');
     background-size: 100%, auto;
+    background-position: center;
     position: relative;
 }
 
-.content-element
+.content-element {
+    float: left;
+    width: auto;
+    align-content: center;
+    text-align: center;
+    maring: 5px;
+}
