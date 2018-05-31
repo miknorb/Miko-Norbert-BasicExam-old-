@@ -13,6 +13,7 @@ function successAjax(xhttp) {
     var userDatas = JSON.parse(xhttp.responseText);
     console.log(userDatas);
     var GoT = {
+        lastId: 0,
         livingCharacters: function (charactersDatabase) {
             var results = [];
             for (var i in charactersDatabase) {
@@ -80,7 +81,7 @@ function successAjax(xhttp) {
             img.src = bio.picture;
             img.alt = bio.name;
             img.id = "bio-img"
-            logo.src = bio.house ? `/assets/houses/${bio.house}.png` : null;
+            logo.src = bio.house ? `/assets/houses/${bio.house}.png` : '';
             logo.alt = bio.house;
             logo.id = "bio-logo";
             h2.innerHTML = bio.name;
@@ -95,16 +96,23 @@ function successAjax(xhttp) {
 
         },
         displayBio: function (id) {
+            this.activeController(id);
             var menu = document.getElementById('right-menu');
-            if (menu.children[1]) {
-                menu.removeChild(menu.children[1]);
-            }
             console.log(userDatas[id - 1]);
             formattedBio = GoT.formatBio(userDatas[id - 1]);
-            menu.appendChild(formattedBio);
+            if (menu.contains(document.getElementById('bio-content'))) {
+                menu.removeChild(document.getElementById('bio-content'))
+            }
+            menu.insertBefore(formattedBio, menu.lastChild);
+        },
+        activeController: function (id) {
+            document.getElementById(id).style.backgroundColor = 'rgba(90, 103, 214, 0.75)';
+            if (this.lastId != 0 && this.lastId != id) {
+                document.getElementById(this.lastId).style.backgroundColor = 'unset';
+            }
+            this.lastId = id;
 
         }
-
     }
     var aliveCharacters = GoT.livingCharacters(userDatas);
     GoT.orderBy(aliveCharacters);

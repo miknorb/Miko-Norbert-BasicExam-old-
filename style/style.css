@@ -113,6 +113,7 @@ h1 {
 #bio-content h2 {
     margin-left: 15px;
     margin-top: 0;
+    width: 90%;
 }
 
 #bio-logo {
@@ -124,4 +125,19 @@ h1 {
 #bio-content p {
     font-size: 0.75em;
     margin-left: 15px;
+}
+
+.activated {
+    background-color: royalblue;
+}
+
+#search {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    margin-bottom: 20px;
+}
+
+#search:focus {
+    padding: 30px;
 }
