@@ -149,7 +149,13 @@ function successAjax(xhttp) {
                         GoT.searchController.searchField.value = '';
 
                     }
-                })
+                });
+                this.searchButton.addEventListener('click', function () {
+                    if (GoT.searchController.searchField.value) {
+                        GoT.searchController.search(GoT.searchController.searchField.value);
+                        GoT.searchController.searchField.value = '';
+                    }
+                });
 
             },
             search: function (text) {

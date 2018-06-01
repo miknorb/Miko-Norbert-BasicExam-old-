@@ -186,3 +186,9 @@ h1 {
     background-color: rgba(245, 245, 245, 0.3);
     height: 2em;
 }
+
+#search button:hover {
+    cursor: pointer;
+    color: darkblue;
+    background-color: rgba(245, 245, 245, 0.8);
+}
