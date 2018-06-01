@@ -3,6 +3,14 @@
     src: url('../assets/fonts/Game of Thrones.ttf')
 }
 
+@font-face {
+    font-family: "FontAwesome";
+    font-weight: normal;
+    font-style: normal;
+    src: url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?v=4.3.0");
+    src: url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0") format("embedded-opentype"), url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff2?v=4.3.0") format("woff2"), url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff?v=4.3.0") format("woff"), url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.ttf?v=4.3.0") format("truetype"), url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular") format("svg");
+}
+
 @keyframes hover-animation {
     0% {}
     100% {
@@ -15,6 +23,24 @@
     0% {
         box-shadow: 0px 0px 86px 7px rgb(90, 103, 214);
         background-color: rgba(90, 103, 214, 0.75);
+    }
+    100% {}
+}
+
+@keyframes search-activate {
+    0% {}
+    100% {
+        width: 250px;
+        border-radius: 20px;
+        border: 1.5px solid darkcyan;
+    }
+}
+
+@keyframes search-deactivate {
+    0% {
+        border: 1.5px solid darkcyan;
+        width: 250px;
+        border-radius: 20px;
     }
     100% {}
 }
@@ -138,6 +164,25 @@ h1 {
     margin-bottom: 20px;
 }
 
-#search:focus {
-    padding: 30px;
+#search input {
+    font-family: FontAwesome;
+    outline: none;
+    height: 2em;
+    color: rgba(128, 128, 128, 0.75);
+    width: 100px;
+    animation-name: search-deactivate;
+    animation-fill-mode: forwards;
+    animation-duration: 0.4s;
+}
+
+#search input:focus {
+    animation-name: search-activate;
+    animation-fill-mode: forwards;
+    animation-duration: 0.4s;
+}
+
+#search button {
+    border: 0;
+    background-color: rgba(245, 245, 245, 0.3);
+    height: 2em;
 }

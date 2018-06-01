@@ -95,15 +95,30 @@ function successAjax(xhttp) {
 
 
         },
-        displayBio: function (id) {
-            this.activeController(id);
+        replaceContent: function (menu, newContent) {
+
+            if (menu.contains(document.getElementById('bio-content'))) {
+                menu.removeChild(document.getElementById('bio-content'));
+            }
+            menu.insertBefore(newContent, menu.lastChild);
+        },
+        displayBio: function (id = -1, needControl = true) {
             var menu = document.getElementById('right-menu');
+            if (id == -1) {
+                var notFound = document.createElement('DIV');
+                notFound.innerHTML = '404 Not Found';
+                notFound.id = 'bio-content';
+                this.replaceContent(menu, notFound);
+                return;
+            }
+            if (needControl)
+                this.activeController(id);
+            console.log(id);
             console.log(userDatas[id - 1]);
             formattedBio = GoT.formatBio(userDatas[id - 1]);
-            if (menu.contains(document.getElementById('bio-content'))) {
-                menu.removeChild(document.getElementById('bio-content'))
-            }
-            menu.insertBefore(formattedBio, menu.lastChild);
+            this.replaceContent(menu, formattedBio);
+
+
         },
         activeController: function (id) {
             document.getElementById(id).style.backgroundColor = 'rgba(90, 103, 214, 0.75)';
@@ -112,12 +127,61 @@ function successAjax(xhttp) {
             }
             this.lastId = id;
 
+
+        },
+        searchController: {
+            searchButton: document.querySelector('#search button'),
+            searchField: document.querySelector('#search input'),
+            eventListenerAdd: function () {
+                console.log(this.searchField)
+                this.searchField.addEventListener('focus', function () {
+                    document.querySelector('#search input').setAttribute('value', '');
+                    GoT.searchController.searchField.style.color = 'black';
+                });
+                this.searchField.addEventListener('blur', function () {
+
+                    document.querySelector('#search input').style.color = 'rgba(128, 128, 128, 0.75)'
+
+                });
+                this.searchField.addEventListener('keypress', function (key) {
+                    if (key.keyCode == 13) {
+                        GoT.searchController.search(GoT.searchController.searchField.value);
+                        GoT.searchController.searchField.value = '';
+
+                    }
+                })
+
+            },
+            search: function (text) {
+                console.log(text);
+                console.log(this);
+                text = text.toLowerCase();
+                var found = false;
+                var locator = 0;
+                for (var i in userDatas) {
+                    if (userDatas[i].name.toLowerCase().indexOf(text) > -1) {
+                        found = true;
+                        locator = userDatas[i].id;
+                        console.log(locator);
+                    }
+                }
+                if (found) {
+                    GoT.displayBio(parseInt(locator), false);
+                    return;
+
+                } else {
+                    GoT.displayBio(-1)
+                    return;
+                }
+            }
         }
     }
+
     var aliveCharacters = GoT.livingCharacters(userDatas);
     GoT.orderBy(aliveCharacters);
     console.log(aliveCharacters);
     GoT.fillContent(aliveCharacters);
+    GoT.searchController.eventListenerAdd();
 
 }
 // Írd be a json fileod nevét/útvonalát úgy, ahogy nálad van
