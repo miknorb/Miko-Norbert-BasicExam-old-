@@ -1,3 +1,5 @@
+szia cserne
+
 function getData(url, callbackFunc) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
